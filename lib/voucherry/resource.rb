@@ -27,6 +27,20 @@ module Voucherry
         resource
       end
 
+      def all(params={})
+        url_attributes = self.url.scan(/%{([^{]+)}/).flatten
+        url = self.url % params.select { |k,v| url_attributes.include? k }
+        url_params = URI.encode_www_form params.select { |k,v| !url_attributes.include? k }
+        unless url_params.empty?
+          url = url["?"] ? "#{url}&#{url_params}" : "#{url}?#{url_params}"
+        end
+
+        response = Voucherry::API.default_client.get(url)
+        JSON.parse(response)[collection_name].map do |attributes|
+          new attributes
+        end
+      end
+
     end
 
     def initialize(attributes)

@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+
+$: << File.expand_path("../../lib", __FILE__)
+
+require 'voucherry'
+require 'pry'
+
+Voucherry::API.configure do |config|
+  config.api_key = "an-api-key"
+  config.endpoint = "voucherry.dev"
+end
+
+pry Voucherry::API
+

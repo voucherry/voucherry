@@ -9,4 +9,5 @@ require 'voucherry/resource'
 require 'voucherry/account'
 require 'voucherry/reward'
 require 'voucherry/email_reward'
+require 'voucherry/cause'
 
