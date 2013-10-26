@@ -28,19 +28,22 @@ module Voucherry
       end
 
       def all(params={})
-        url_attributes = self.url.scan(/%{([^{]+)}/).flatten
-        url = self.url % params.select { |k,v| url_attributes.include? k }
-        url_params = URI.encode_www_form params.select { |k,v| !url_attributes.include? k }
-        unless url_params.empty?
-          url = url["?"] ? "#{url}&#{url_params}" : "#{url}?#{url_params}"
-        end
-
-        response = Voucherry::API.default_client.get(url)
+        response = Voucherry::API.default_client.get(build_url(url, params))
         JSON.parse(response)[collection_name].map do |attributes|
           new attributes
         end
       end
 
+      private
+      def build_url(url, params={})
+        url_attributes = url.scan(/%{([^{]+)}/).flatten
+        url = url % params.select { |k,v| url_attributes.include? k }
+        url_params = URI.encode_www_form params.select { |k,v| !url_attributes.include? k }
+        unless url_params.empty?
+          url = url["?"] ? "#{url}&#{url_params}" : "#{url}?#{url_params}"
+        end
+        url
+      end
     end
 
     def initialize(attributes)
@@ -53,7 +56,7 @@ module Voucherry
       attrs = @attributes.select do |attr,val|
         not self.class.remote_forbidden_attributes.include?(attr.to_sym)
       end
-      verb = @attributes[:id].nil? ? :post : put
+      verb = @attributes[:id].nil? ? :post : :put
       response = Voucherry::API.default_client.send(verb, resource_url, self.class.resource_name => attrs)
       @attributes = (@attributes||{}).merge(JSON.parse(response)[self.class.resource_name]||{})
       self

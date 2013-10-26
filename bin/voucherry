@@ -8,7 +8,7 @@ require 'pry'
 
 Voucherry::API.configure do |config|
   config.api_key = "an-api-key"
-  config.endpoint = "voucherry.dev"
+  config.endpoint = "staging.voucherry.com"
 end
 
 pry Voucherry::API

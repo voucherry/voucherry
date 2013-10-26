@@ -4,5 +4,6 @@ module Voucherry
     @url = "/api/v2/causes/search"
 
 
+
   end
 end
