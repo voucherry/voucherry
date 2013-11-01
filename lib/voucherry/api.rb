@@ -22,18 +22,38 @@ module Voucherry
         Voucherry::Reward.find(campaign_id: campaign_id, id: reward_id)
       end
 
-      def create_reward(campaign_id, amount, expires_at, identifier=nil, event=nil, event_description=nil)
+      #
+      # Expiration policy
+      #   refund => refunds the business account when the reward is expiring
+      #   autofullfill =>   fullfills the reward automatically ( without the user confirmation )
+      #                     amounts are debited into the preferred cause account and business cause account
+      #
+      #
+      # voucherry_id of the cause that is prefered for this reward
+      #
+      def create_reward(campaign_id, amount, expires_at, identifier=nil, event=nil, event_description=nil, expiration_policy = 'refund', preferred_cause_id = nil)
         Voucherry::Reward.create({
           campaign_id: campaign_id,
           amount: amount,
           expires_at: expires_at,
           identifier: identifier,
           event: event,
-          event_description: event_description
+          event_description: event_description,
+          preferred_cause_id: preferred_cause_id,
+          expiration_policy: expiration_policy
         })
       end
 
-      def create_email_reward(campaign_id, email, amount, expires_at, identifier=nil, event=nil, event_description=nil)
+      #
+      # Expiration policy
+      #   refund => refunds the business account when the reward is expiring
+      #   autofullfill =>   fullfills the reward automatically ( without the user confirmation )
+      #                     amounts are debited into the preferred cause account and business cause account
+      #
+      #
+      # voucherry_id of the cause that is prefered for this reward
+      #
+      def create_email_reward(campaign_id, email, amount, expires_at, identifier=nil, event=nil, event_description=nil, expiration_policy = 'refund', preferred_cause_id = nil)
         Voucherry::EmailReward.create({
           campaign_id: campaign_id,
           email: email,
@@ -41,7 +61,9 @@ module Voucherry
           expires_at: expires_at,
           identifier: identifier,
           event: event,
-          event_description: event_description
+          event_description: event_description,
+          preferred_cause_id: preferred_cause_id,
+          expiration_policy: expiration_policy
         })
       end
 
