@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "voucherry"
   gem.require_paths = ["lib"]
-  gem.version       = "1.0.2"
+  gem.version       = "1.0.3"
 
   gem.add_dependency 'rest-client'
   gem.add_dependency 'pry'

@@ -1,7 +1,5 @@
-
 module Voucherry
 end
-
 
 require 'voucherry/api'
 require 'voucherry/configuration'
@@ -10,4 +8,5 @@ require 'voucherry/account'
 require 'voucherry/reward'
 require 'voucherry/email_reward'
 require 'voucherry/cause'
+require 'voucherry/supporter'
 
